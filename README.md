@@ -1,10 +1,6 @@
 # Frontend Interview & Learning Kit 🚀
 
-![GitHub stars](https://img.shields.io/github/stars/sash9696/frontend-interview-kit?style=social)
-![License](https://img.shields.io/badge/license-Apache--2.0-blue.svg)
-![Last Updated](https://img.shields.io/badge/updated-November%202025-green.svg)
-
-**Your complete guide to mastering frontend interviews—curated resources, proven strategies, and hands-on projects.**
+**Your complete guide to mastering frontend interviews—curated resources, proven strategies, and projects ideas.**
 
 ---
 
@@ -15,6 +11,7 @@
 - [Fundamentals: HTML & CSS](#fundamentals-html--css)
 - [JavaScript Core](#javascript-core)
 - [React & Modern Frameworks](#react--modern-frameworks)
+- [Design Patterns (JavaScript & React)](#design-patterns-javascript--react)
 - [Data Structures & Algorithms](#data-structures--algorithms)
 - [Frontend System Design](#frontend-system-design)
 - [Testing & QA](#testing--qa)
@@ -234,6 +231,381 @@
 - Read React's source code for core hooks (useState, useEffect)—understanding implementation details gives you confidence in interviews and helps debug weird issues.
 
 **Tags:** `#react` `#hooks` `#performance` `#testing`
+
+---
+
+## Design Patterns (JavaScript & React)
+
+Understanding design patterns is crucial for writing maintainable, scalable code and demonstrating senior-level thinking in interviews. Patterns solve recurring problems with proven solutions.
+
+### Essential Resources
+
+**[Patterns.dev](https://www.patterns.dev/)**  
+*Why:* Modern web app patterns for React, performance, rendering, and design patterns—created by Addy Osmani and Lydia Hallie.  
+*How to Use:*
+- **Study Plan:** 2 weeks. Read 2 patterns per day. Focus on React patterns, performance patterns, and rendering patterns.
+- **Interview Gold:** Sections on "Compound Component Pattern," "Higher-Order Components," "Render Props," "Hooks Pattern," "Islands Architecture."
+- **Key Takeaways:** When to use each pattern, tradeoffs, real-world examples from Google, Facebook, Netflix.
+- **Interview Script:** "I use the Compound Component pattern for flexible, reusable components like Tabs or Accordions—it gives consumers control over composition while maintaining internal state management."
+- **Exercise:** Implement a Modal component using Compound Component pattern, then refactor to Render Props, then to Hooks. Compare approaches.
+
+**[JavaScript Design Patterns (Addy Osmani Book)](https://www.patterns.dev/posts/classic-design-patterns)**  
+*Why:* Classic Gang of Four patterns adapted for JavaScript—Singleton, Factory, Observer, Module, etc.  
+*How to Use:*
+- **Study Plan:** 1 week. Focus on patterns you'll actually use: Module, Observer, Singleton, Factory, Decorator.
+- **Interview Script:** "I use the Observer pattern for event-driven architectures—similar to how React's state management works. The Module pattern helps encapsulate private data."
+- **Pitfall:** Don't force patterns where they're not needed. Use them to solve problems, not to show off knowledge.
+- **Exercise:** Implement a PubSub system (Observer pattern) from scratch, then compare with EventEmitter.
+
+**[React Patterns](https://reactpatterns.com/)**  
+*Why:* Collection of React-specific patterns with code examples.  
+*How to Use:*
+- **Study Plan:** 3 days. Focus on commonly asked patterns: Compound Components, Controlled/Uncontrolled Components, Props Collection, State Reducer.
+- **Interview:** "The State Reducer pattern gives consumers control over state updates while maintaining component logic—useful for highly customizable components."
+- **Exercise:** Build a custom Select component using the State Reducer pattern.
+
+**[JavaScript Patterns (by Stoyan Stefanov)](https://github.com/shichuan/javascript-patterns)**  
+*Why:* Comprehensive collection of JavaScript patterns with explanations.  
+*How to Use:*
+- **Study Plan:** 1 week. Focus on object creation patterns, code reuse patterns, and design patterns sections.
+- **Interview Gold:** Factory pattern, Constructor pattern, Prototype pattern, Mixin pattern.
+
+**[Refactoring Guru - Design Patterns](https://refactoring.guru/design-patterns)**  
+*Why:* Visual explanations of design patterns with examples in multiple languages including JavaScript.  
+*How to Use:*
+- **Study Plan:** 1 week. Focus on Creational, Structural, and Behavioral patterns.
+- **Best For:** Understanding pattern intent, when to use, and structure with clear diagrams.
+- **Exercise:** Implement Strategy pattern for form validation with multiple validation strategies.
+
+### JavaScript Design Patterns
+
+#### 1. **Module Pattern**
+**Purpose:** Encapsulate private data and expose public API.
+
+```javascript
+const CounterModule = (function() {
+  // Private
+  let count = 0;
+  
+  // Public API
+  return {
+    increment() { return ++count; },
+    decrement() { return --count; },
+    getCount() { return count; }
+  };
+})();
+
+CounterModule.increment(); // 1
+// count is not accessible from outside
+```
+
+**When to use:** Organizing code, creating libraries, hiding implementation details.  
+**Interview:** "I use the Module pattern to create self-contained functionality with clear public APIs."
+
+---
+
+#### 2. **Observer Pattern (Pub/Sub)**
+**Purpose:** One-to-many dependency where observers get notified of changes.
+
+```javascript
+class EventEmitter {
+  constructor() {
+    this.events = {};
+  }
+  
+  on(event, callback) {
+    if (!this.events[event]) this.events[event] = [];
+    this.events[event].push(callback);
+  }
+  
+  emit(event, data) {
+    if (this.events[event]) {
+      this.events[event].forEach(cb => cb(data));
+    }
+  }
+}
+
+const emitter = new EventEmitter();
+emitter.on('login', user => console.log(`${user} logged in`));
+emitter.emit('login', 'Alice');
+```
+
+**When to use:** Event-driven architectures, decoupling components, custom events.  
+**Interview:** "React's state management and event system use Observer pattern—components subscribe to state changes."
+
+---
+
+#### 3. **Singleton Pattern**
+**Purpose:** Ensure only one instance exists.
+
+```javascript
+class Database {
+  constructor() {
+    if (Database.instance) {
+      return Database.instance;
+    }
+    this.connection = 'Connected';
+    Database.instance = this;
+  }
+}
+
+const db1 = new Database();
+const db2 = new Database();
+console.log(db1 === db2); // true
+```
+
+**When to use:** Global state, configuration objects, connection pools.  
+**Interview:** "Singletons are useful for app-wide state but can make testing harder. In React, Context is a better alternative."
+
+---
+
+#### 4. **Factory Pattern**
+**Purpose:** Create objects without specifying exact class.
+
+```javascript
+class Button {
+  constructor(type) {
+    this.type = type;
+  }
+  render() {
+    return `<button class="${this.type}">Click</button>`;
+  }
+}
+
+function ButtonFactory(type) {
+  switch(type) {
+    case 'primary': return new Button('btn-primary');
+    case 'danger': return new Button('btn-danger');
+    default: return new Button('btn-default');
+  }
+}
+
+const primaryBtn = ButtonFactory('primary');
+```
+
+**When to use:** Complex object creation, polymorphism, runtime type decisions.
+
+---
+
+#### 5. **Decorator Pattern**
+**Purpose:** Add functionality to objects dynamically.
+
+```javascript
+function logger(fn) {
+  return function(...args) {
+    console.log(`Calling ${fn.name} with`, args);
+    return fn(...args);
+  };
+}
+
+function add(a, b) {
+  return a + b;
+}
+
+const loggedAdd = logger(add);
+loggedAdd(2, 3); // Logs: "Calling add with [2, 3]"
+```
+
+**When to use:** Adding cross-cutting concerns (logging, auth, caching), Higher-Order Functions.  
+**Interview:** "React's Higher-Order Components are an implementation of the Decorator pattern."
+
+---
+
+### React Design Patterns
+
+#### 1. **Compound Component Pattern**
+**Purpose:** Create flexible, composable components that share implicit state.
+
+```javascript
+// TabContext shares state between Tab.List and Tab.Panel
+function Tabs({ children }) {
+  const [activeTab, setActiveTab] = useState(0);
+  
+  return (
+    <TabContext.Provider value={{ activeTab, setActiveTab }}>
+      {children}
+    </TabContext.Provider>
+  );
+}
+
+Tabs.List = function TabList({ children }) {
+  return <div role="tablist">{children}</div>;
+};
+
+Tabs.Tab = function Tab({ index, children }) {
+  const { activeTab, setActiveTab } = useContext(TabContext);
+  return (
+    <button onClick={() => setActiveTab(index)}>
+      {children}
+    </button>
+  );
+};
+
+// Usage
+<Tabs>
+  <Tabs.List>
+    <Tabs.Tab index={0}>Tab 1</Tabs.Tab>
+    <Tabs.Tab index={1}>Tab 2</Tabs.Tab>
+  </Tabs.List>
+</Tabs>
+```
+
+**When to use:** Complex, flexible components (Tabs, Accordion, Select, Modal).  
+**Interview:** "This pattern is used in libraries like Radix UI and Reach UI—gives consumers control over markup and styling."
+
+---
+
+#### 2. **Render Props Pattern**
+**Purpose:** Share code using a prop whose value is a function.
+
+```javascript
+function DataFetcher({ url, render }) {
+  const [data, setData] = useState(null);
+  const [loading, setLoading] = useState(true);
+  
+  useEffect(() => {
+    fetch(url)
+      .then(res => res.json())
+      .then(data => {
+        setData(data);
+        setLoading(false);
+      });
+  }, [url]);
+  
+  return render({ data, loading });
+}
+
+// Usage
+<DataFetcher 
+  url="/api/users"
+  render={({ data, loading }) => (
+    loading ? <Spinner /> : <UserList users={data} />
+  )}
+/>
+```
+
+**When to use:** Sharing stateful logic before Hooks, flexible rendering.  
+**Interview:** "Render Props solve the same problem as Hooks but with more boilerplate. Hooks are generally preferred now."
+
+---
+
+#### 3. **Custom Hooks Pattern**
+**Purpose:** Extract and reuse stateful logic.
+
+```javascript
+function useLocalStorage(key, initialValue) {
+  const [value, setValue] = useState(() => {
+    const stored = localStorage.getItem(key);
+    return stored ? JSON.parse(stored) : initialValue;
+  });
+  
+  useEffect(() => {
+    localStorage.setItem(key, JSON.stringify(value));
+  }, [key, value]);
+  
+  return [value, setValue];
+}
+
+// Usage
+function App() {
+  const [theme, setTheme] = useLocalStorage('theme', 'light');
+  return <div className={theme}>...</div>;
+}
+```
+
+**When to use:** Reusing logic across components, abstracting complex state.  
+**Interview:** "Custom Hooks are the modern way to share stateful logic—cleaner than Render Props or HOCs."
+
+---
+
+#### 4. **Higher-Order Component (HOC) Pattern**
+**Purpose:** Enhance components with additional functionality.
+
+```javascript
+function withAuth(Component) {
+  return function AuthComponent(props) {
+    const { user, loading } = useAuth();
+    
+    if (loading) return <Spinner />;
+    if (!user) return <Redirect to="/login" />;
+    
+    return <Component {...props} user={user} />;
+  };
+}
+
+const ProtectedProfile = withAuth(Profile);
+```
+
+**When to use:** Cross-cutting concerns (auth, logging, analytics), legacy codebases.  
+**Interview:** "HOCs were popular before Hooks. Now Custom Hooks are preferred—less nesting, clearer data flow."
+
+---
+
+#### 5. **Container/Presentational Pattern**
+**Purpose:** Separate logic from UI.
+
+```javascript
+// Container (logic)
+function UserListContainer() {
+  const [users, setUsers] = useState([]);
+  
+  useEffect(() => {
+    fetchUsers().then(setUsers);
+  }, []);
+  
+  return <UserListPresentation users={users} />;
+}
+
+// Presentational (UI)
+function UserListPresentation({ users }) {
+  return (
+    <ul>
+      {users.map(user => (
+        <li key={user.id}>{user.name}</li>
+      ))}
+    </ul>
+  );
+}
+```
+
+**When to use:** Separating concerns, reusable UI components, testing.  
+**Interview:** "This pattern makes components easier to test—presentational components are pure functions."
+
+---
+
+### Pattern Decision Guide
+
+| Problem | Pattern | Why |
+|---------|---------|-----|
+| Share stateful logic | Custom Hooks | Modern, composable, no nesting |
+| Flexible composition | Compound Components | User controls structure |
+| Add functionality to components | Decorator/HOC | Cross-cutting concerns |
+| Event-driven updates | Observer | Loose coupling |
+| Complex object creation | Factory | Hide creation complexity |
+| Global state/config | Singleton/Context | Single source of truth |
+
+### Interview Questions About Patterns
+
+**Q: "When would you use Compound Components?"**  
+**A:** "When building flexible, composable components like Tabs, Accordion, or Dropdown where consumers need control over markup and styling but components share state. Radix UI and Reach UI use this pattern extensively."
+
+**Q: "Explain the difference between HOCs and Hooks."**  
+**A:** "Both share logic, but HOCs wrap components (leading to wrapper hell), while Hooks compose inside components. Hooks have clearer data flow, better TypeScript support, and no naming collisions."
+
+**Q: "What's a good use case for the Observer pattern in React?"**  
+**A:** "A toast notification system where multiple parts of the app can trigger toasts without direct coupling. Or a WebSocket connection where multiple components subscribe to real-time updates."
+
+**Q: "When should you NOT use a pattern?"**  
+**A:** "When it adds complexity without clear benefit. Don't use Singleton for everything—it makes testing hard. Don't use Factory if simple functions suffice. Patterns should solve problems, not create them."
+
+**💡 Pro Tips:**
+- Don't memorize patterns—understand the problems they solve. In interviews, explain "we had X problem, pattern Y solved it because Z."
+- Modern React favors Hooks over HOCs and Render Props—know why (composition, clarity, TypeScript support).
+- Patterns.dev is THE resource for modern patterns—spend time on performance patterns and rendering patterns sections.
+- Practice explaining tradeoffs: "Pattern X is good for Y but adds Z complexity. Pattern A is simpler but less flexible."
+- Build one project using 3-4 patterns consciously, then explain your decisions in interviews.
+
+**Tags:** `#design-patterns` `#architecture` `#react-patterns` `#javascript-patterns`
 
 ---
 
