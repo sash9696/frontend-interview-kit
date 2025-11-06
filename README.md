@@ -360,11 +360,11 @@ def bfs(root):
 - **Interview:** Start with clarifying questions—scale, devices, offline support, real-time needs.
 
 **[Frontend at Scale](https://frontendatscale.com/)**  
-*Why:* Newsletter and articles on frontend architecture, scaling, and design patterns by Maxi Ferreira (Staff Engineer).  
+*Why:* Newsletter and articles on frontend architecture, scaling, and design patterns by Maxi Ferreira (Staff Engineer at Google Chrome).  
 *How to Use:*
-- **Study Plan:** Read newsletter archive (2 weeks). Focus on articles like "Visualizing Frontend Architecture," "Domain Modeling for Building UIs," "Separation of Concerns."
-- **Key Insights:** Architectural decision records (ADRs), modular monoliths, complexity management, coupling vs. cohesion.
-- **Interview Script:** "I follow frontend architecture best practices like separation of concerns and document decisions using ADRs to track tradeoffs."
+- **Study Plan:** Read newsletter archive (2 weeks). Focus on articles like "Visualizing Frontend Architecture," "Domain Modeling for Building UIs," "Separation of Concerns," and "May I Interest You In a Modular Monolith?"
+- **Key Insights:** Architectural decision records (ADRs), modular monoliths, complexity management, coupling vs. cohesion, preparatory refactoring.
+- **Interview Script:** "I follow frontend architecture best practices like separation of concerns and document decisions using ADRs to track tradeoffs over time."
 - **Pitfall:** Don't just read—apply concepts to your current projects to internalize patterns.
 - **Exercise:** Draw an architecture diagram for a project you've worked on using the C4 model (Context, Container, Component, Code).
 
@@ -708,49 +708,76 @@ const Dashboard = React.lazy(() => import('./Dashboard'));
 
 ## Tooling, Build & Deploy
 
-### Resources
+### Essential Resources
 
 **[Vite Documentation](https://vitejs.dev/)**  
-*Why:* Next-generation build tool—lightning-fast HMR and optimized production builds.  
+*Why:* Next-generation build tool—lightning-fast HMR, native ES modules, and optimized production builds.  
 *How to Use:*
-- **Study Plan:** 2 days. Read Getting Started and Features sections.
-- **Interview Script:** "I use Vite for its instant HMR and native ES modules support—dev server starts in milliseconds vs. seconds with Webpack."
-- **Exercise:** Migrate a Create React App project to Vite and compare build times.
+- **Study Plan:** 2 days. Read Getting Started, Features, and Plugin API sections.
+- **Interview Script:** "I use Vite for its instant HMR and native ES modules support—dev server starts in milliseconds vs. seconds with Webpack. Build times are 10-100x faster."
+- **Exercise:** Migrate a Create React App project to Vite and compare dev server startup and build times.
 
 **[Next.js Documentation](https://nextjs.org/docs)**  
 *Why:* React framework with SSR, ISR, file-based routing, and API routes built-in.  
 *How to Use:*
-- **Study Plan:** 1 week. Focus on App Router, Server Components, and rendering strategies.
-- **Interview Gold:** Explain when to use SSR vs. SSG vs. ISR vs. CSR.
-- **Exercise:** Build a blog with SSG for posts, ISR for content updates, and CSR for comments.
+- **Study Plan:** 1 week. Focus on App Router, Server Components, and rendering strategies (SSR, SSG, ISR, CSR).
+- **Interview Gold:** Explain when to use each rendering strategy and their tradeoffs.
+- **Exercise:** Build a blog with SSG for posts, ISR for content updates (revalidate every 60s), and CSR for comments.
 
 **[TypeScript Handbook](https://www.typescriptlang.org/docs/handbook/)**  
-*Why:* Type safety catches bugs at compile time and improves developer experience.  
+*Why:* Type safety catches bugs at compile time and improves developer experience with autocomplete.  
 *How to Use:*
-- **Study Plan:** 1 week. Focus on Basic Types, Interfaces, Generics, and Utility Types.
-- **Interview Script:** "TypeScript reduces runtime errors by 15-38% according to studies. I use it for better IDE autocomplete and refactoring confidence."
-- **Exercise:** Add TypeScript to an existing JavaScript project incrementally.
+- **Study Plan:** 1 week. Focus on Basic Types, Interfaces, Generics, and Utility Types (`Partial`, `Pick`, `Omit`, `Record`).
+- **Interview Script:** "TypeScript reduces runtime errors by 15-38% according to Microsoft research. I use it for better IDE support, refactoring confidence, and self-documenting code."
+- **Exercise:** Add TypeScript to an existing JavaScript project incrementally—start with `allowJs` and gradually add types.
 
 **[ESLint Documentation](https://eslint.org/docs/latest/)**  
-*Why:* Catch code quality issues and enforce consistent style across teams.  
+*Why:* Catch code quality issues, bugs, and enforce consistent style across teams.  
 *How to Use:*
-- **Study Plan:** 1 day. Learn about rules, plugins, and custom configurations.
-- **Interview:** "I configure ESLint with accessibility plugins (eslint-plugin-jsx-a11y) to catch a11y issues during development."
-- **Exercise:** Set up ESLint with Prettier and Airbnb style guide.
+- **Study Plan:** 1 day. Learn about rules, plugins (eslint-plugin-react, eslint-plugin-jsx-a11y), and shareable configs.
+- **Interview:** "I configure ESLint with accessibility plugins to catch a11y issues during development, not after deployment."
+- **Exercise:** Set up ESLint with Prettier, TypeScript, and Airbnb or Standard style guide.
+
+**[Prettier Documentation](https://prettier.io/docs/en/)**  
+*Why:* Opinionated code formatter—stops style debates and saves time in code reviews.  
+*How to Use:*
+- **Study Plan:** 1 hour. Learn configuration options and editor integration.
+- **Interview:** "Prettier automates formatting so code reviews focus on logic, not style. I run it on pre-commit hooks with Husky."
+- **Exercise:** Set up Prettier with ESLint (eslint-config-prettier) and configure it to format on save.
 
 **[GitHub Actions Documentation](https://docs.github.com/en/actions)**  
-*Why:* Automate CI/CD pipelines—tests, builds, deployments.  
+*Why:* Automate CI/CD pipelines—tests, builds, deployments, and quality checks.  
 *How to Use:*
-- **Study Plan:** 2 days. Focus on workflow syntax, marketplace actions, and secrets management.
-- **Interview Script:** "I set up GitHub Actions to run tests, Lighthouse CI, and bundle size checks on every PR. Failed checks block merges."
-- **Exercise:** Create a workflow that runs tests, builds, and deploys to Vercel on merge to main.
+- **Study Plan:** 2 days. Focus on workflow syntax, marketplace actions, caching, and secrets management.
+- **Interview Script:** "I set up GitHub Actions to run tests, Lighthouse CI, and bundle size checks on every PR. Failed checks block merges—caught a 500KB bundle increase before it hit production."
+- **Exercise:** Create a workflow that runs tests, builds, checks bundle size, and deploys to Vercel on merge to main.
 
 **[Storybook Documentation](https://storybook.js.org/docs)**  
-*Why:* Develop and document UI components in isolation.  
+*Why:* Develop and document UI components in isolation—improves component reusability and team collaboration.  
 *How to Use:*
-- **Study Plan:** 3 days. Learn about stories, args, decorators, and addons.
-- **Interview Gold:** "Storybook improves collaboration between designers and developers—design specs and coded components live together."
-- **Exercise:** Set up Storybook for a component library with accessibility and interaction testing addons.
+- **Study Plan:** 3 days. Learn about stories, args, decorators, and addons (a11y, interactions, viewport).
+- **Interview Gold:** "Storybook improves designer-developer collaboration—design specs and coded components live together. Reduces 'it looks different in production' issues."
+- **Exercise:** Set up Storybook for a component library with a11y addon, interaction testing, and visual regression testing.
+
+**[Webpack Documentation](https://webpack.js.org/concepts/)**  
+*Why:* Still widely used—understanding module bundlers helps with debugging and optimization.  
+*How to Use:*
+- **Study Plan:** 3 days. Focus on loaders, plugins, code splitting, and tree shaking.
+- **Interview:** "I optimized bundle size by analyzing with webpack-bundle-analyzer, implementing code splitting with dynamic imports, and enabling tree shaking."
+- **Exercise:** Configure Webpack from scratch for a React app with dev server, production optimization, and CSS modules.
+
+**[Vitest Documentation](https://vitest.dev/)**  
+*Why:* Vite-native testing framework—instant test execution with HMR.  
+*How to Use:*
+- **Study Plan:** 1 day. Learn API compatibility with Jest and UI mode for debugging.
+- **Interview:** "Vitest leverages Vite's speed—tests run 10x faster than Jest in large projects."
+- **Exercise:** Migrate a Jest test suite to Vitest and compare execution times.
+
+**[Turbopack Documentation](https://turbo.build/pack)**  
+*Why:* Next-generation bundler built in Rust—successor to Webpack, incrementally adopted by Next.js.  
+*How to Use:*
+- **Study Plan:** 1 day. Read architecture and migration guide.
+- **Interview:** "Turbopack offers 700x faster updates than Webpack in large apps—key for developer experience at scale."
 
 ### The Modern Frontend Stack
 
@@ -817,7 +844,7 @@ Machine coding rounds test your ability to **build working features under time p
 
 ### Resources
 
-**[GreatFrontEnd Questions](https://www.greatfrontend.com/questions)**  
+**[GreatFrontEnd](https://www.greatfrontend.com/questions)**  
 *Why:* Real machine coding questions asked at top companies (Google, Meta, Amazon).  
 *How to Use:*
 - **Study Plan:** 2 weeks. Solve 2-3 questions per day. Time yourself (60-90 min each).
@@ -839,19 +866,44 @@ Machine coding rounds test your ability to **build working features under time p
 - **Focus:** Component behavior, state management, API integration.
 - **Exercise:** Build a "Stop Watch" with start, stop, lap, and reset functionality.
 
-**[DevTools Tech - Frontend Challenges](https://www.devtools.tech/)**  
-*Why:* Practice frontend machine coding with real interview-style problems.  
+**[DevTools Tech - Frontend Challenges](https://www.devtools.tech/?ref=frontend-interview-kit)**  
+*Why:* Practice frontend machine coding with real interview-style problems—covers HTML/CSS, JavaScript, and React.  
 *How to Use:*
 - **Study Plan:** 1 week. Complete challenges in HTML/CSS and JavaScript sections.
-- **Focus Areas:** Vanilla JavaScript implementations, DOM manipulation, event handling.
-- **Exercise:** Build a multi-step form with validation and local storage persistence.
+- **Focus Areas:** Vanilla JavaScript implementations, DOM manipulation, event handling, no-framework challenges.
+- **Interview Gold:** Problems like modal, tooltip, tabs, accordion teach fundamental patterns used across frameworks.
+- **Exercise:** Build a multi-step form with validation and local storage persistence without using React.
 
 **[Learners Bucket - Frontend Machine Coding](https://learnersbucket.com/examples/interview/)**  
-*Why:* Collection of commonly asked frontend interview coding problems.  
+*Why:* Collection of commonly asked frontend interview coding problems with solutions explained.  
 *How to Use:*
-- **Study Plan:** 5 days. Solve problems in "Frontend Machine Coding" section.
-- **Interview Gold:** Star rating, progress bar, pagination, accordion, modal.
-- **Exercise:** Implement a progress bar that fills based on scroll position.
+- **Study Plan:** 5 days. Solve problems in "Frontend Machine Coding" section—focus on understanding patterns, not memorizing code.
+- **Interview Gold:** Star rating, progress bar, pagination, accordion, modal, infinite scroll—these patterns appear in 70% of machine coding rounds.
+- **Key Patterns:** Event delegation, debouncing/throttling, lazy loading, keyboard accessibility.
+- **Exercise:** Implement a progress bar that fills based on scroll position and add keyboard shortcuts for accessibility.
+
+**[JavaScript30](https://javascript30.com/)**  
+*Why:* 30 vanilla JavaScript projects in 30 days—builds muscle memory for DOM manipulation and browser APIs.  
+*How to Use:*
+- **Study Plan:** 2 weeks (2 projects/day). Code along with Wes Bos, then rebuild from scratch without watching.
+- **Focus:** Projects like Drum Kit, Clock, Video Player teach event handling, timers, and media APIs.
+- **Interview:** "I've built 30 vanilla JavaScript projects which taught me to solve problems without reaching for libraries first."
+- **Exercise:** Build the "Type Ahead" project (autocomplete) without watching the solution video.
+
+**[Frontend Mentor](https://www.frontendmentor.io/)**  
+*Why:* Real-world UI challenges with professional designs—practice building pixel-perfect components.  
+*How to Use:*
+- **Study Plan:** 1-2 weeks. Start with "Newbie" challenges, progress to "Junior" and "Intermediate."
+- **Focus:** Responsive design, CSS Grid/Flexbox, accessibility, semantic HTML.
+- **Interview:** "Frontend Mentor taught me to work from designs like in real jobs—I learned to estimate time and handle edge cases."
+- **Exercise:** Complete the "Interactive Rating Component" challenge in 2 hours—includes state management and form handling.
+
+**[Coding Challenges (Cassidy Williams)](https://github.com/cassidoo/interviews)**  
+*Why:* Weekly interview questions (algorithms + frontend challenges) from a senior engineer.  
+*How to Use:*
+- **Study Plan:** Ongoing. Subscribe to newsletter, solve one challenge per week.
+- **Focus:** Mix of DSA, JavaScript problems, and UI components.
+- **Exercise:** Check the repository's issues for past challenges and solutions from the community.
 
 ### Common Machine Coding Problems
 
