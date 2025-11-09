@@ -774,6 +774,16 @@ def bfs(root):
 - **Interview Script:** "I learned about scalable frontend architectures from Front-End Engineer's series—covers performance optimization, micro-frontends, and design patterns."
 - **Exercise:** Pick one video's topic and implement a mini version in your project.
 
+**[Frontend Case Studies](https://github.com/andrew--r/frontend-case-studies)**  
+*Why:* Curated list of real-world case studies from companies like Airbnb, Netflix, Spotify, Uber, and major tech companies showing how they built and scaled their frontends.  
+*How to Use:*
+- **Study Plan:** 1-2 weeks. Read 2-3 case studies per day from different companies.
+- **Interview Gold:** Learn actual production architectures—Airbnb's component library, Netflix's web performance optimization, Spotify's micro-frontends approach.
+- **Key Topics:** React architecture, performance optimization, A/B testing at scale, internationalization (i18n), accessibility, micro-frontends, monorepos.
+- **Interview Script:** "I studied how [Company] approached [Problem]—for example, Airbnb's design system uses a component-driven architecture with strict accessibility guidelines, which influenced how I structure my projects."
+- **Exercise:** Pick one case study (e.g., Twitter's PWA migration) and recreate a simplified version of their architecture pattern in a demo project.
+- **Pitfall:** Don't just read passively—analyze the tradeoffs they made and why certain decisions fit their specific constraints.
+
 ### Case Study 1: **High-Throughput Analytics Dashboard**
 
 **Requirements:**
